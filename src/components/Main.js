@@ -22,7 +22,7 @@ const Main = ()=>
         const cards=apidata.map((item)=>{
             return (
                 <div key={item._id} className="card image" style={{width:"22rem"}}   >
-                <img className="card-img-top image" src={`http://localhost:4000/uploads/${item.photo}`} height="330" alt="Card image cap"/>
+                <img className="card-img-top " src={`http://localhost:4000/uploads/${item.photo}`} height="330" alt="Card  cap"/>
                 <div className="card-body" >
                    <h5 className="card-title">{item.employeename}</h5>
                     <p className="card-text">Employee Email: {item.email} </p>
