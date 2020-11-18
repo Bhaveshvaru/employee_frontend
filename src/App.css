@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+.image{
+  border-radius: 15px;
+
+}
+
+.css-cards{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding:5rem;
+  
+}
+
+.footer{
+ 
+}
+
+.card-padding{
+  padding: 5rem;
+
+}
+
+.width{
+  width:35rem;
+}
+
+.cards{
+  display: flex;
+  justify-content: center;
+}
