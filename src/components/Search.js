@@ -1,13 +1,12 @@
 import React, { useState,useEffect } from "react";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
 import  axios from "axios";
 
 const Search = ()=>{
 
     const [searchItem,setSearchItem]=useState("");
     const [apiData,setApiData]=useState([]);
-
+   
     
     const onInputSubmit=(event)=>{
         event.preventDefault();
@@ -17,20 +16,24 @@ const Search = ()=>{
 
     const searchApi=()=>{
         axios.get(`http://localhost:4000/api/employee/search?employeename=${searchItem}`)
-        .then((data)=>{setApiData(data.data)})
+        .then((data)=>{
+            setApiData(data.data);
+            if(data.data.length===0){
+               window.alert("No Employee Found!");
+           }
+        })
         .catch((err)=>{console.log(err)})
  };
 
     useEffect(()=>{
         searchApi();
-
     },[searchItem]);
 
        //mapping the data
        const cards=apiData.map((item)=>{
         return (
             <div key={item._id} className="card image" style={{width:"25rem"}}   >
-            <img className="card-img-top image" src={`http://localhost:4000/uploads/${item.photo}`} height="330" alt="Card image cap"/>
+            <img className="card-img-top image" src={`http://localhost:4000/uploads/${item.photo}`} height="330" alt="Card cap"/>
             <div className="card-body " style={{backgroundColor:"lightgrey"}} >
                <h5 className="card-title">{item.employeename}</h5>
                 <p className="card-text">Employee Email: {item.email} </p>
@@ -55,7 +58,12 @@ const Search = ()=>{
         <div className="cards">
              {cards}
            </div>
-        <Footer/>
+    
+           <footer id="sticky-footer" className="py-4 bg-dark text-white-50 fixed-bottom footer">
+          <div className="container text-center">
+           <small style={{color:"white"}}>Copyright &copy; Employeee</small>
+         </div>
+       </footer>
         </>
     )
 };
