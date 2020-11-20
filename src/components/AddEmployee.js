@@ -3,8 +3,18 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import axios from "axios";
 import {  useHistory }from "react-router-dom";
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState} from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import ".././App.css"
+
 
 const AddEmployee = ()=>{
+  const [editorState, setEditorState] = React.useState(
+    EditorState.createEmpty()
+  );
+ 
+
 
     const history = useHistory();
     const [employeeName,setEmployeeName]=useState("");
@@ -28,7 +38,7 @@ const AddEmployee = ()=>{
     };
     
     const handleBio=(event)=>{
-       setEmployeeBio(event.target.value);
+      setEmployeeBio(event.target.value)
     }
     
     const handleDOB=(event)=>{
@@ -48,6 +58,7 @@ const AddEmployee = ()=>{
     };
 
     const handleClick=()=>{
+     
         let formData = new FormData();
         formData.append("employeename",employeeName);
         formData.append("employeeaddress",employeeAddress);
@@ -72,6 +83,13 @@ const AddEmployee = ()=>{
             });
     }
 
+    const onEditorStateChange=()=>{
+      setEditorState(editorState);
+      
+    }
+
+    
+    
     
 
     return (
@@ -95,11 +113,22 @@ const AddEmployee = ()=>{
                     <input type="text" className="form-control"  aria-describedby="userHelp" onChange={handleAddress}  required/>
                   </div>
 
+                 
                   <div className="form-group">
                     <label for="exampleInputusername">Employee Bio:</label>
                     <textarea  className="form-control" id="exampleFormControlTextarea1" rows="3" onChange={handleBio} required></textarea>
                   </div>
-                  
+
+                     <div className="richtext">
+                       <Editor
+                       initialEditorState={editorState}
+                       onChange={editorState => setEditorState(editorState)}
+                         wrapperClassName="wrapper-class"
+                          editorClassName="editor-class"
+                          toolbarClassName="toolbar-class"
+                          onEditorStateChange={onEditorStateChange}
+                        />
+                   </div>
                   
                   <div id="date-picker-example" className="md-form md-outline input-with-post-icon datepicker">
                     <label for="example">Select Employee's  Date of Birth:</label>

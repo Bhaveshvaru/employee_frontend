@@ -11,33 +11,32 @@ const UpdateEmployee = ()=>{
     
     //get Employee By Id
     const [fetchData,setFetchDate]=useState([]);
+   
     const [newDate,setNewDate]=useState("");
     const id = window.location.pathname.slice(16,40);
     useEffect(()=>{
         axios.get(`http://localhost:4000/api/employeeId/${id}`)
         .then((data)=>{setFetchDate(data.data.data);
-        setNewDate(data.data.data.dateofbirth.slice(0,10))
-        
+        setNewDate(data.data.data.dateofbirth.slice(0,10));
         })
         .catch((err)=>{console.log(err)})
     },[])
-
+     
+    const {employeename}=fetchData;
+    console.log("check name",employeename);
     
-
-
-     const [employeeName,setEmployeeName]=useState("");
+    const [employeeNam,setEmployeeNam]=useState(fetchData.employeename);
+    
     const [employeeDOB,setEmployeeDOB]=useState("");
     const [employeeAddress,setEmployeeAddress]=useState("");
-    const [employeeEmail,setEmployeeEmail]=useState("");
+    const [employeeEmail,setEmployeeEmail]=useState(fetchData.email);
     const [employeeBio,setEmployeeBio]=useState("");
     const [employeePhone,setEmployeePhone]=useState("");
     const [employeePhoto,setEmployeePhoto]=useState("");
-    
-
-    
-    
+ 
+  
     const handleName=(event)=>{
-        setEmployeeName(event.target.value);
+        setEmployeeNam(event.target.value);
     };
 
     const handleEmail=(event)=>{
@@ -54,6 +53,7 @@ const UpdateEmployee = ()=>{
     
     const handleDOB=(event)=>{
      setEmployeeDOB(event.target.value);
+     
     };
 
     const handlePhone=(event)=>{
@@ -69,18 +69,19 @@ const UpdateEmployee = ()=>{
     };
 
     const handleClick=()=>{
+     
         let formData = new FormData();
-        formData.append("employeename",employeeName);
+        formData.append("employeename",employeeNam);
         formData.append("employeeaddress",employeeAddress);
         formData.append("email",employeeEmail);
         formData.append("dateofbirth",employeeDOB);
         formData.append("phone",employeePhone);
         formData.append("bio",employeeBio);
-        formData.append("photo",employeePhoto);
+        //formData.append("photo",employeePhoto);
     
           axios({
-            method: 'post',
-            url: 'http://localhost:4000/api/employee/create',
+            method: 'put',
+            url: `http://localhost:4000/api/employee/update/${id}`,
             data: formData,
             })
             .then((data) => {
@@ -99,7 +100,7 @@ const UpdateEmployee = ()=>{
     return (
         <>
         <Navbar/>
-        <div className="container" style={{marginTop:"20px",paddingBottom:"2rem"}}>
+        <div className="container" style={{marginTop:"20px",paddingBottom:"9rem"}}>
               <form onSubmit={handleSubmit}  encType="multipart/form-data" novalidate>
                 <h3 className="m-3">Update Employee</h3>
                   <div className="form-group">
@@ -134,10 +135,10 @@ const UpdateEmployee = ()=>{
                   </div>
 
 
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <label for="exampleFormControlFile1">Upload Employee image:</label>
                     <input type="file" className="form-control-file"  name="photo"  onChange={handleImage}  required/>
-                  </div>
+                  </div> */}
 
 
                   <br/>
